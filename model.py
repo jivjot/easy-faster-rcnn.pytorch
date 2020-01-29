@@ -75,7 +75,7 @@ class Model(nn.Module):
         return path_to_checkpoint
 
     def load(self, path_to_checkpoint: str, optimizer: Optimizer = None, scheduler: _LRScheduler = None) -> 'Model':
-        checkpoint = torch.load(path_to_checkpoint)
+        checkpoint = torch.load(path_to_checkpoint,map_location=torch.device('cpu'))
         self.load_state_dict(checkpoint['state_dict'])
         step = checkpoint['step']
         if optimizer is not None:

@@ -1,0 +1,1 @@
+python infer.py -s=coco2017 -b=resnet101 -c=checkpoint/model-180000.pth --image_min_side=800 --image_max_side=1333 --anchor_sizes="[64, 128, 256, 512]" --rpn_post_nms_top_n=1000 images/demo-sample.jpg demo-sample.output.jpg

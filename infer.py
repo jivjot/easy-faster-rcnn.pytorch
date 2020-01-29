@@ -18,7 +18,7 @@ def _infer(path_to_input_image: str, path_to_output_image: str, path_to_checkpoi
     backbone = BackboneBase.from_name(backbone_name)(pretrained=False)
     model = Model(backbone, dataset_class.num_classes(), pooler_mode=Config.POOLER_MODE,
                   anchor_ratios=Config.ANCHOR_RATIOS, anchor_sizes=Config.ANCHOR_SIZES,
-                  rpn_pre_nms_top_n=Config.RPN_PRE_NMS_TOP_N, rpn_post_nms_top_n=Config.RPN_POST_NMS_TOP_N).cuda()
+                  rpn_pre_nms_top_n=Config.RPN_PRE_NMS_TOP_N, rpn_post_nms_top_n=Config.RPN_POST_NMS_TOP_N)#.cuda()
     model.load(path_to_checkpoint)
 
     with torch.no_grad():
@@ -26,7 +26,7 @@ def _infer(path_to_input_image: str, path_to_output_image: str, path_to_checkpoi
         image_tensor, scale = dataset_class.preprocess(image, Config.IMAGE_MIN_SIDE, Config.IMAGE_MAX_SIDE)
 
         detection_bboxes, detection_classes, detection_probs, _ = \
-            model.eval().forward(image_tensor.unsqueeze(dim=0).cuda())
+            model.eval().forward(image_tensor.unsqueeze(dim=0))
         detection_bboxes /= scale
 
         kept_indices = detection_probs > prob_thresh
